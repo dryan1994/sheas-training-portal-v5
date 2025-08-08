@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard — Mayo Fire Service Training Portal</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; background: #f7fbff; margin: 0; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .card { background: white; border-radius: 16px; padding: 16px; box-shadow: 0 6px 24px rgba(0,0,0,0.06); margin-bottom: 16px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+    .muted { color: #3b3b3b; }
+    .btn { padding: 10px 14px; border-radius: 10px; border: 1px solid #c7daf5; background: white; cursor: pointer; }
+    .btn.primary { background: #1a73e8; color: white; border: 0; }
+    label { display: block; margin-bottom: 6px; font-size: 12px; color: #444; }
+    input, select { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #c7daf5; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 8px; border-bottom: 1px solid #eee; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <h2 id="welcomeBanner">Welcome</h2>
+        <div class="muted">Here’s what you can do today</div>
+      </div>
+      <div><button class="btn" onclick="logout()">Sign out</button></div>
+    </div>
+
+    <div class="card" id="firstTimeIntro" style="display:none">
+      <h3>Quick tour</h3>
+      <ul>
+        <li>Search firefighters by station or name</li>
+        <li>Add/edit <b>sessions</b> with start & end dates</li>
+        <li>Assign firefighters to sessions</li>
+        <li>Mark completions; refresher due dates are computed for you</li>
+        <li>See conflicts and compliance at a glance</li>
+      </ul>
+      <button class="btn" onclick="dismissIntro()">Got it</button>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Search Firefighters</h3>
+        <label>Station</label>
+        <input id="filterStation" placeholder="e.g. Castlebar" oninput="renderFirefighters()"/>
+        <label>Name</label>
+        <input id="filterName" placeholder="e.g. Tony" oninput="renderFirefighters()"/>
+        <div id="ffList"></div>
+      </div>
+
+      <div class="card">
+        <h3>Sessions (Create / Edit)</h3>
+        <label>Course</label>
+        <select id="courseSelect"></select>
+        <label>Part (optional)</label>
+        <input id="partName" placeholder="e.g. Practical"/>
+        <label>Start date</label>
+        <input id="startDate" type="date"/>
+        <label>End date</label>
+        <input id="endDate" type="date"/>
+        <label>Location</label>
+        <input id="location" placeholder="e.g. Ballina Training Centre"/>
+        <label>Capacity</label>
+        <input id="capacity" type="number" value="8"/>
+        <button class="btn primary" onclick="createSession()">Save session</button>
+        <div id="sessionMsg" class="muted" style="margin-top:8px"></div>
+      </div>
+
+      <div class="card">
+        <h3>Assignments</h3>
+        <label>Session</label>
+        <select id="sessionSelect"></select>
+        <label>Firefighter</label>
+        <select id="ffSelect"></select>
+        <button class="btn primary" onclick="assignFirefighter()">Assign</button>
+        <div id="assignMsg" class="muted" style="margin-top:8px"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Compliance Snapshot</h3>
+      <div id="compliance"></div>
+    </div>
+  </div>
+
+  <script src="./scripts/supabase.js"></script>
+  <script src="./scripts/app.js"></script>
+</body>
+</html>
