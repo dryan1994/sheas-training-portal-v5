@@ -1,20 +1,28 @@
-# Shea's Training Portal V2 — Supabase
+# Shea's Training Portal V2 — Ready to Deploy
 
-## Setup (5 steps)
-1) Create a Supabase project (free). In Settings → API, copy Project URL + anon public key.
-2) In this app, set creds either:
-   - Quick: open browser console →
-     localStorage.setItem('SUPABASE_URL','https://YOUR_PROJECT.supabase.co')
-     localStorage.setItem('SUPABASE_ANON_KEY','YOUR_PUBLIC_ANON_KEY')
-   - Permanent: edit `scripts/supabase.js` placeholders.
-3) In Supabase SQL Editor, paste `sql/schema.sql` and run.
-4) Auth → invite your email. Log in via `index.html`. In `managers` table, set your row `role`='creator'.
-5) Import your data into `firefighters`, `courses` (priority 1..6 for core), and use the app to add sessions & assignments.
+## What you have
+- Static app (index.html, dashboard.html) wired to your Supabase project.
+- SQL schema for Supabase tables, functions, and row-level security.
+- CNAME configured for: training.mayofs.com
 
-### Refresher rule
-If Excel shows **Refresher Required = YES** for (firefighter, course), treat initial as done. Import as enrolment with `status='completed'` and `needs_refresher=true` until refresher is attended.
-If **NO**, do nothing (no refresher notices).
+## Deploy to GitHub Pages (5 steps)
+1) Create a new GitHub repo (or open your existing one).
+2) Click **Add file → Upload files** and drag **all contents** of this folder (not the folder itself).
+3) Commit changes.
+4) Repo **Settings → Pages** → Source: `main` branch, folder: `/ (root)` → Save.
+5) Wait 1–3 minutes; your site is live.
 
-### Run
-- Open `index.html` → login → `dashboard.html`.
-- Create sessions (start/end), assign firefighters, mark completions.
+## Set up Supabase (3 steps)
+1) In Supabase → **SQL Editor** → paste `sql/schema.sql` → Run.
+2) **Auth → Users → Invite** your email; log in via the site.
+3) **Table Editor → managers** → set your row `role` = `creator`.
+
+## Custom domain (training.mayofs.com)
+- This repo includes a `CNAME` file set to `training.mayofs.com`.
+- In your domain’s DNS, create a **CNAME** record:
+  - **Host/Name**: training
+  - **Value/Target**: YOUR_GITHUB_USERNAME.github.io
+  - TTL: default
+- In the repo: Settings → Pages → Custom domain → enter `training.mayofs.com` (if not already detected).
+
+That’s it.
